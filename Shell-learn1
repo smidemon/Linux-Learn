@@ -1,0 +1,63 @@
+Linux Shell 获取当前正在执行脚本的存放路径
+basepath=$(cd `dirname $0`; pwd)        #进入当前执行文件的父目录并显示目录
+basepath=$(cd ../`dirname $0`; pwd)     #进入当前执行文件的上一级目录并显示目录
+
+
+
+Shell通过特定字符把字符串分割成数组
+
+#!/bin/bash 
+str="1,2,3,4"; 
+//与/之间与分割的字符 ，另外/后有一个空格不可省略 
+str=${str//,/ }; 
+arr=($str); 
+#遍历数组 
+for each in ${arr[*]} 
+do 
+  echo $each 
+done
+
+Shell读取配置文件
+
+config.ini
+id=xxxxx
+ip=xxxxx
+addr=xxx
+
+第一种方法： 用sed 流处理器，将每行=号和前面的部分去掉，并赋给变量。
+id=`sed '/^id=/!d;s/.*=//' config.ini`
+ip=`sed '/^ip=/!d;s/.*=//' config.ini`
+
+第二种方法： 使用eval方法解析。
+while read line;do
+  eval "$line"
+done < config.ini
+echo $id
+echo $ip
+
+第三种方法：直接将变量load进环境中成为环境变量。
+. config.ini
+source config.ini
+
+Shell获取数组的长度和元素
+${#array[@]}      #获取数组长度
+${array[*]}         #获取所有的元素
+${#str}                #获取字符串的长度
+
+for example:
+********************************************
+str=${str//,/ };       #以逗号分割字符串
+arr=($str)
+num=${#arr[@]}  #获取数组长度
+for((i=0;i<num;i++))
+do 
+  echo ${arr[i]};
+done
+********************************************
+str=${str//,/ };       #以逗号分割字符串
+arr=($str)
+for var in ${arr[*]}
+do
+  echo $var;
+done
+********************************************
