@@ -1,0 +1,1 @@
+for i in `cinder list | grep ManageOne | awk '{print $2}'`;do printf $i;done
