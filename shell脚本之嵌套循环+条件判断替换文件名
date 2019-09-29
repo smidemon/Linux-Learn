@@ -1,0 +1,29 @@
+#!/bin/bash
+
+i=1
+SUM=`sed -n '$=' test.ini` #计算文件的总行数
+#echo "$SUM"
+while read line
+do
+    arr[$i]="$line"
+    i=`expr $i + 1`
+done < test.ini
+#echo "$i"
+i=1
+index=0
+for i in `ls | grep txt`
+do
+ index=`expr $index + 1`
+ for j in `seq $SUM` ;
+ do
+  #echo $j
+  #echo $index
+  if [ $j -eq $index ];then
+     #echo "${arr[$j]}"
+     echo $i "->" "${arr[$j]}"
+     mv $i "${arr[$j]}"
+  else
+     continue
+  fi
+ done
+done
