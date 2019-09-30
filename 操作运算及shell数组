@@ -1,0 +1,71 @@
+一、shell数组
+1、定义数组方式一：
+  array1=(1 2 "c" 4)
+  echo ${array1[*]}
+  echo ${array1[@]}
+  #array1[@]和array1[*]都代表输出数组所有元素，当${array1[*]}加上""变成"${array1[*]}"时，此时变量会当成一串字符串处理，而"${array1[@]}"则还是数组；
+  所以区别就在于“*”当变量加上“” 会当成一串字符串处理.
+2、定义数组方式二：
+  array2[0]=1
+  array2[1]=2
+  array2[2]="c"
+  array2[3]=4
+3、修改数组值：
+  array2[0]=5
+  echo ${array2[0]}
+  #记得加上大括号
+4、查询数组长度：
+  length=${#array2[@]}
+  echo $length
+  #获取字符串长度也是一样命令
+  
+二、shell基本运算符
+1、数字操作运算：
+#原生bash不支持简单的数学运算，但是可以通过其他命令来实现，例如 awk 和 expr，expr 最常用。
+#例如，两个数相加(注意使用的是反引号 ` 而不是单引号 ')：
+  #!/bin/bash
+
+  val=`expr 2 + 2`
+  echo "两数之和为 : $val"
+#注意：表达式和运算符之间要有空格
+#基本算术运算符包括：+ - \*(乘法要用\转义) / %(取余) =(赋值) == !=
+2、关系运算符：
+#关系运算符只支持数字，不支持字符串，除非字符串的值是数字。
+-eq	检测两个数是否相等，相等返回 true。	[ $a -eq $b ] 返回 false。
+-ne	检测两个数是否不相等，不相等返回 true。	[ $a -ne $b ] 返回 true。
+-gt	检测左边的数是否大于右边的，如果是，则返回 true。	[ $a -gt $b ] 返回 false。
+-lt	检测左边的数是否小于右边的，如果是，则返回 true。	[ $a -lt $b ] 返回 true。
+-ge	检测左边的数是否大于等于右边的，如果是，则返回 true。	[ $a -ge $b ] 返回 false。
+-le	检测左边的数是否小于等于右边的，如果是，则返回 true。	[ $a -le $b ] 返回 true。
+3、布尔运算符：
+!	非运算，表达式为 true 则返回 false，否则返回 true。	[ ! false ] 返回 true。
+-o	或运算，有一个表达式为 true 则返回 true。	[ $a -lt 20 -o $b -gt 100 ] 返回 true。
+-a	与运算，两个表达式都为 true 才返回 true。	[ $a -lt 20 -a $b -gt 100 ] 返回 false。
+4、逻辑运算符：
+&&	逻辑的 AND	[[ $a -lt 100 && $b -gt 100 ]] 返回 false
+||	逻辑的 OR	[[ $a -lt 100 || $b -gt 100 ]] 返回 true
+5、字符串运算符：
+=	检测两个字符串是否相等，相等返回 true。	[ $a = $b ] 返回 false。
+!=	检测两个字符串是否相等，不相等返回 true。	[ $a != $b ] 返回 true。
+-z	检测字符串长度是否为0，为0返回 true。	[ -z $a ] 返回 false。
+-n	检测字符串长度是否为0，不为0返回 true。	[ -n "$a" ] 返回 true。
+$	检测字符串是否为空，不为空返回 true。	[ $a ] 返回 true。
+6、文件测试运算符：
+-b file	检测文件是否是块设备文件，如果是，则返回 true。	[ -b $file ] 返回 false。
+-c file	检测文件是否是字符设备文件，如果是，则返回 true。	[ -c $file ] 返回 false。
+-d file	检测文件是否是目录，如果是，则返回 true。	[ -d $file ] 返回 false。
+-f file	检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。	[ -f $file ] 返回 true。
+-g file	检测文件是否设置了 SGID 位，如果是，则返回 true。	[ -g $file ] 返回 false。
+-k file	检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。	[ -k $file ] 返回 false。
+-p file	检测文件是否是有名管道，如果是，则返回 true。	[ -p $file ] 返回 false。
+-u file	检测文件是否设置了 SUID 位，如果是，则返回 true。	[ -u $file ] 返回 false。
+-r file	检测文件是否可读，如果是，则返回 true。	[ -r $file ] 返回 true。
+-w file	检测文件是否可写，如果是，则返回 true。	[ -w $file ] 返回 true。
+-x file	检测文件是否可执行，如果是，则返回 true。	[ -x $file ] 返回 true。
+-s file	检测文件是否为空（文件大小是否大于0），不为空返回 true。	[ -s $file ] 返回 true。
+-e file	检测文件（包括目录）是否存在，如果是，则返回 true。	[ -e $file ] 返回 true。
+
+其他检查符：
+
+-S: 判断某文件是否 socket。
+-L: 检测文件是否存在并且是一个符号链接。
