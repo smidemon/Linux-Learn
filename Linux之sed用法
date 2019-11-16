@@ -1,0 +1,23 @@
+sed -i  -i 表示操作的是文件
+1、替换文件中的指定内容
+（1）将main.py文件中的.mp4".format(va_path)替换成-shake.mp4".format(va_path)
+    sed -i 's/.mp4".format(va_path)/-shake.mp4".format(va_path)/g' main.py
+（2）如果遇到要替换的字符串中包含斜杠/，那么将对应的/替换成#格式如下
+    sed -i 's#"http://www.baidu.com"#"http://www.google.com"#g' main.py
+（3）如果一个文件中有多个匹配字段，则会全部替换掉
+2、删除符合条件的行
+（1）删除一行
+    sed -i '/xxxx/d' main.py
+（2）如果一个文件中有多个匹配字段，则会全部删除掉
+3、增加一条数据 /a或/i，/a在下一行添加，/i在上一行
+（1）在字符串'dddd'下添加一行echo "http://www.baidu.com"
+    sed -i '/dddd/aecho "http://www.baidu.com"' ttt.sh
+（2）在字符串'dddd'上添加一行echo "http://www.zhihu.com"
+    sed -i '/dddd/iecho "http://www.zhihu.com"' ttt.sh
+4、替换当前目录下所有以sh结尾的子文件中的指定字符串，同样遇到替换的字符串中包括/时，将参数中的/改为#
+    sed -i 's/fffff/xxxxx/g' ./*.sh
+5、查找并替换所有符合条件的文件中的指定字符
+    sed -i s/fffff/xxxxx/g `grep fffff -rl --include="*.sh" ./`
+-r表示查找所有子目录
+-l表示仅列出符合条件的文件名，用来传给sed命令做操作
+--include="*.txt" 表示仅查找txt文件
