@@ -1,0 +1,12 @@
+#!/bin/bash
+src=/opt/fqj/its-node-analysis/tmp
+dsc=/opt/data/testSet/hangzhouVideo/X-IPC/12-10-15-50-2min/debug-analysis/tt
+expect -c "
+spawn scp -r $src/fusion.avi $src/track.avi $src/det.avi $src/calibEW.avi $src/calibSN.avi  root@10.175.121.110:$dsc
+expect {
+\"*assword\" {set timeout 300; send \"Huawei@123\r\";}
+\"yes/no\" {send \"yes\r\"; exp_continue;}
+}
+expect eof"
+
+此脚本用于远程拷贝scp遇到需输入密码或yes/no的时候免密操作
