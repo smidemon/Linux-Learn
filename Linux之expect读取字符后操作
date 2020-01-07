@@ -1,3 +1,4 @@
+scp
 #!/bin/bash
 src=/opt/fqj/its-node-analysis/tmp
 dsc=/opt/data/testSet/hangzhouVideo/X-IPC/12-10-15-50-2min/debug-analysis/tt
@@ -10,3 +11,14 @@ expect {
 expect eof"
 
 此脚本用于远程拷贝scp遇到需输入密码或yes/no的时候免密操作
+
+
+ssh
+#!/bin/bash
+expect -c "
+spawn ssh root@10.175.121.110 \"ls;\"
+expect {
+    \"*assword\" {set timeout 300; send \"password\r\";}
+    \"yes/no\" {send \"yes\r\"; exp_continue;}
+      }
+expect eof"
